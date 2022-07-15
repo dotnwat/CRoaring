@@ -33,6 +33,16 @@ libroaring = library('roaring',
   implicit_include_directories : false,
   include_directories: [includes])
 
+cpp_headers = files(
+  'cpp/roaring.hh',
+  'cpp/roaring64map.hh')
+
+# https://github.com/mesonbuild/meson/issues/2546
+# another workaround may be to simply move the headers
+# into a 'roaring' subdir as part of the meson changes.
+subdir('include-workaround-meson/roaring')
+
 roaring_dep = declare_dependency(
   link_with: libroaring,
-  include_directories: [includes])
+  include_directories: [includes,
+    include_directories('include-workaround-meson')])
